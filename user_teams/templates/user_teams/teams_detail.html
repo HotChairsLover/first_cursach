@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ team.title }}</title>
+</head>
+<body>
+    <h1>{{ team.title }}</h1>
+    <div>
+        <h2>Задачи</h2>
+        {% for task in team.tasks.all %}
+            <p>Описание: {{ task.description }}</p>
+            <p>Дедлайн: {{ task.deadline }}</p>
+            <div>Ограничения: {% for restriction in task.restrictions.all %} <p>{{ restriction.name }};</p>{% endfor %}</div>
+            <p>Создано: {{ task.created_at }}</p>
+            <p>Выполнено: {{ task.completed_at }}</p>
+        {% endfor %}
+        <h2>Сотрудники</h2>
+        {% for user in team.users_set.all %}
+        <p>Имя: {{ user.name }} Должность: {{ user.position }}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
