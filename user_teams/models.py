@@ -4,8 +4,6 @@ from django.db import models
 class Users(models.Model):
     name = models.CharField(max_length=200, verbose_name="Имя")
     position = models.ForeignKey("Positions", on_delete=models.CASCADE, verbose_name="Должность")
-    team = models.ForeignKey("Team", blank=True, null=True, default=None, on_delete=models.SET_DEFAULT,
-                             verbose_name="Команда")
     selected_task = models.ForeignKey("Tasks", blank=True, null=True, default=None, on_delete=models.SET_DEFAULT,
                                       verbose_name="Задача")
 
@@ -14,16 +12,17 @@ class Users(models.Model):
 
 
 class Team(models.Model):
-    title = models.CharField(max_length=200)
-    tasks = models.ManyToManyField("Tasks", blank=True, null=True, default=None)
+    title = models.CharField(max_length=200, verbose_name="Название")
+    tasks = models.ManyToManyField("Tasks", blank=True, null=True, default=None, verbose_name="Задачи")
+    users = models.ManyToManyField("Users", blank=True, null=True, default=None, verbose_name="Участники")
 
     def __str__(self):
         return self.title
 
 
 class Tasks(models.Model):
-    description = models.TextField(max_length=5000)
-    restrictions = models.ManyToManyField("Positions")
+    description = models.TextField(max_length=5000, verbose_name="Описание")
+    restrictions = models.ManyToManyField("Positions", verbose_name="Ограничения")
     deadline = models.DateField(verbose_name="Дедлайн")
     created_at = models.DateField(auto_now_add=True)
     completed_at = models.DateField(blank=True, null=True, default=None)
@@ -33,7 +32,7 @@ class Tasks(models.Model):
 
 
 class Positions(models.Model):
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=300, verbose_name="Название")
 
     def __str__(self):
         return self.name

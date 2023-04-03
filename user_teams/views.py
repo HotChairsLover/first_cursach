@@ -18,6 +18,6 @@ class TeamsDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TeamsDetailView, self).get_context_data(**kwargs)
-        context['users'] = Users.objects.filter(team=Team.objects.filter(id=self.kwargs['pk']).first())
+        #context['users'] = Users.objects.filter(team=Team.objects.filter(id=self.kwargs['pk']).first())
 
         return context
