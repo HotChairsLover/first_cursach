@@ -1,8 +1,11 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
+
 from user_teams.models import *
 
 
-@admin.register(Users)
+User = get_user_model()
+@admin.register(User)
 class UsersAdmin(admin.ModelAdmin):
     pass
 
