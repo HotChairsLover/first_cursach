@@ -1,24 +1,47 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-
-from user_teams.models import *
-
-
-User = get_user_model()
-@admin.register(User)
+from django.contrib.auth.admin import UserAdmin
+from . import models
+from . import forms
 
 
-@admin.register(Team)
+class CustomUserAdmin(UserAdmin):
+    add_form = forms.UserCreationForm
+    form = forms.UserChangeForm
+    model = models.Users
+    list_display = ("username", "first_name", "last_name", "second_name", "phone", "position", "is_staff", "is_active")
+    list_filter = ("username", "position", "is_staff", "is_active")
+    fieldsets = (
+        (None, {"fields": ("username", "first_name", "last_name", "second_name", "phone", "position")}),
+        ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")})
+    )
+    add_fieldsets = (
+        (None, {
+            "classes": "wide",
+            "fields": (
+                "username", "first_name", "last_name", "second_name", "phone", "position", "password1", "password2",
+                "is_staff", "is_active", "groups", "user_permissions"
+            )}
+         ),
+    )
+    search_fields = ("username", "position")
+    ordering = ("username", "position")
+
+
+admin.site.register(models.Users, CustomUserAdmin)
+
+
+@admin.register(models.Team)
 class TeamAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Tasks)
+@admin.register(models.Tasks)
 class TasksAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Positions)
+@admin.register(models.Positions)
 class PositionsAdmin(admin.ModelAdmin):
     pass
 

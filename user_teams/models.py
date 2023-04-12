@@ -1,23 +1,24 @@
-from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
 class Users(AbstractUser):
-    name = models.CharField(max_length=200, null=True, blank=True, verbose_name="Имя")
-    phone = models.CharField(max_length=20, null=True, default=None, verbose_name="Телефон")
-    position = models.ForeignKey("Positions", null=True, blank=True, on_delete=models.CASCADE, verbose_name="Должность")
+    first_name = models.CharField(max_length=200, verbose_name="Имя")
+    second_name = models.CharField(max_length=200, verbose_name="Фамилия")
+    last_name = models.CharField(max_length=200, verbose_name="Отчество")
+    phone = models.CharField(max_length=20, verbose_name="Телефон")
+    position = models.ForeignKey("Positions", on_delete=models.CASCADE, null=True, blank=True, verbose_name="Должность")
     selected_task = models.ForeignKey("Tasks", blank=True, null=True, default=None, on_delete=models.SET_DEFAULT,
                                       verbose_name="Задача")
 
     def __str__(self):
-        return self.name
+        return f"{self.first_name} {self.last_name} {self.second_name}"
 
 
 class Team(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название")
-    tasks = models.ManyToManyField("Tasks", blank=True, null=True, default=None, verbose_name="Задачи")
-    users = models.ManyToManyField("Users", blank=True, null=True, default=None, verbose_name="Участники")
+    tasks = models.ManyToManyField("Tasks", blank=True, verbose_name="Задачи")
+    users = models.ManyToManyField("Users", blank=True, verbose_name="Участники")
 
     def __str__(self):
         return self.title
