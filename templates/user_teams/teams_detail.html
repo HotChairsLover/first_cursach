@@ -1,9 +1,18 @@
+{% if user.is_authenticated %}
+    {% if user in team.users.all or user.username == "admin" %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{{ team.title }}</title>
 </head>
+    <header>
+    <nav>
+        <a href="{% url 'teams_list' %}">Главная</a>
+        <a href="">Личный кабинет</a>
+        <a href="{% url 'user_logout' %}">Выйти из аккаунта</a>
+    </nav>
+</header>
 <body>
     <h1>{{ team.title }}</h1>
     <div>
@@ -22,8 +31,14 @@
         {% endfor %}
         <h2>Сотрудники</h2>
         {% for user in team.users.all %}
-        <p>Имя: {{ user.name }} Должность: {{ user.position }}</p>
+        <p>Имя: {{ user}} Должность: {{ user.position }}</p>
         {% endfor %}
     </div>
 </body>
 </html>
+    {% else %}
+        <meta http-equiv = "refresh" content = "0; url = {% url 'teams_list' %}"/>
+    {% endif %}
+{% else %}
+    <meta http-equiv = "refresh" content = "0; url = {% url 'user_auth' %}"/>
+{% endif %}

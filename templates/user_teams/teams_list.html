@@ -1,0 +1,26 @@
+{% if user.is_authenticated %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Команды</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'teams_list' %}">Главная</a>
+            <a href="">Личный кабинет</a>
+            <a href="{% url 'user_logout' %}">Выйти из аккаунта</a>
+        </nav>
+    </header>
+    {% for team in teams %}
+    <div>
+        <h3>{{ team.title }}</h3>
+        <p><a href="{{ team.id }}">Перейти</a></p>
+    </div>
+    {% endfor %}
+</body>
+</html>
+{% else %}
+    <meta http-equiv = "refresh" content = "0; url = {% url 'user_auth' %}"/>
+{% endif %}
