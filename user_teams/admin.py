@@ -6,8 +6,6 @@ from user_teams.models import *
 
 User = get_user_model()
 @admin.register(User)
-class UsersAdmin(admin.ModelAdmin):
-    pass
 
 
 @admin.register(Team)
