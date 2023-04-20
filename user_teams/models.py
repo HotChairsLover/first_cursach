@@ -15,21 +15,39 @@ class Users(AbstractUser):
         return f"{self.first_name} {self.last_name} {self.second_name}"
 
 
+class TaskToTeam(models.Model):
+    task = models.ForeignKey("Tasks", on_delete=models.CASCADE)
+    team = models.ForeignKey("Team", on_delete=models.CASCADE)
+
+
+class UserToTeam(models.Model):
+    user = models.ForeignKey("Users", on_delete=models.CASCADE)
+    team = models.ForeignKey("Team", on_delete=models.CASCADE)
+
+
 class Team(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название")
-    tasks = models.ManyToManyField("Tasks", blank=True, verbose_name="Задачи")
+    tasks = models.ManyToManyField("Tasks", blank=True, verbose_name="Задачи", through="TaskToTeam")
     users = models.ManyToManyField("Users", blank=True, verbose_name="Участники")
 
     def __str__(self):
         return self.title
 
 
+class RestrictionsToTask(models.Model):
+    restriction = models.ForeignKey("Positions", on_delete=models.CASCADE)
+    task = models.ForeignKey("Tasks", on_delete=models.CASCADE)
+
+
 class Tasks(models.Model):
     description = models.TextField(max_length=5000, verbose_name="Описание")
-    restrictions = models.ManyToManyField("Positions", verbose_name="Ограничения")
+    restrictions = models.ManyToManyField("Positions", blank=True, verbose_name="Ограничения", through="RestrictionsToTask")
     deadline = models.DateField(verbose_name="Дедлайн")
     created_at = models.DateField(auto_now_add=True)
     completed_at = models.DateField(blank=True, null=True, default=None)
+
+    class Meta:
+        ordering = ["deadline"]
 
     def __str__(self):
         return self.description

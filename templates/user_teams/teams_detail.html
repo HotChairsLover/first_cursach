@@ -29,6 +29,11 @@
                 <input type="submit" value="Выбрать">
             </form>
         {% endfor %}
+        <form class="addTask" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Добавить задачу</button>
+        </form>
         <h2>Сотрудники</h2>
         {% for user in team.users.all %}
         <p>Имя: {{ user}} Должность: {{ user.position }}</p>
