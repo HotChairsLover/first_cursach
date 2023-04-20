@@ -27,6 +27,25 @@ class TeamsDetailView(ModelFormMixin, generic.DetailView):
         return reverse("teams_detail", kwargs={'pk': self.object.id})
 
     def post(self, request, *args, **kwargs):
+        if request.POST.get("task_select"):
+            return self.post_select_task(request)
+        elif request.POST.get("task_refuse"):
+            return self.post_refuse_task(request)
+        else:
+            return self.post_create_task()
+
+    def post_refuse_task(self, request):
+        user_id = request.user.id
+        task_id = request.POST.get("task_id")
+        user = Users.objects.filter(id=user_id).get()
+        task = Tasks.objects.filter(id=task_id).get()
+        user.selected_task = None
+        task.is_selected = False
+        user.save()
+        task.save()
+        return self.get(request)
+
+    def post_create_task(self):
         form = self.get_form()
         self.object = self.get_object()
         if form.is_valid():
@@ -34,7 +53,19 @@ class TeamsDetailView(ModelFormMixin, generic.DetailView):
             post_task = form.save()
             task_to_team = TaskToTeam(team=post_team, task=post_task)
             task_to_team.save()
-            return self.form_valid(form, )
+            return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+    def post_select_task(self, request):
+        user_id = request.user.id
+        task_id = request.POST.get("task_id")
+        user = Users.objects.filter(id=user_id).get()
+        task = Tasks.objects.filter(id=task_id).get()
+        if task.is_selected is False and user.selected_task is None and user.position in task.restrictions.all():
+            user.selected_task = task
+            task.is_selected = True
+            user.save()
+            task.save()
+        return self.get(request)
 

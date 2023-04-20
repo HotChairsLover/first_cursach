@@ -44,6 +44,7 @@ class Tasks(models.Model):
     restrictions = models.ManyToManyField("Positions", blank=True, verbose_name="Ограничения", through="RestrictionsToTask")
     deadline = models.DateField(verbose_name="Дедлайн")
     created_at = models.DateField(auto_now_add=True)
+    is_selected = models.BooleanField(null=True, default=False)
     completed_at = models.DateField(blank=True, null=True, default=None)
 
     class Meta:

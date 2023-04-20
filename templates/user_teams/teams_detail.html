@@ -16,24 +16,46 @@
 <body>
     <h1>{{ team.title }}</h1>
     <div>
-        <h2>Задачи</h2>
+        <h2>Свободные задачи</h2>
         {% for task in team.tasks.all %}
-            <form action="" method="post">
+            {% if task.is_selected is False %}
+            <form class="task" action="" method="post">
                 {% csrf_token %}
-                <input type="hidden" value="{{ task.id }}">
+                <input type="hidden" name="task_id" value="{{ task.id }}">
                 <p>Описание: {{ task.description }}</p>
                 <p>Дедлайн: {{ task.deadline }}</p>
                 <div>Ограничения: {% for restriction in task.restrictions.all %} <p>{{ restriction.name }};</p>{% endfor %}</div>
                 <p>Создано: {{ task.created_at }}</p>
-                <p>Выполнено: {{ task.completed_at }}</p>
-                <input type="submit" value="Выбрать">
+                {% if user.selected_task is None %}
+                <input type="submit" name="task_select" value="Выбрать">
+                {% endif %}
             </form>
+            {% endif %}
         {% endfor %}
-        <form class="addTask" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Добавить задачу</button>
-        </form>
+        <h2>Выбранные задачи</h2>
+        {% for task in team.tasks.all %}
+            {% if task.is_selected is not False %}
+            <form class="task" action="" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="task_id" value="{{ task.id }}">
+                <p>Описание: {{ task.description }}</p>
+                <p>Дедлайн: {{ task.deadline }}</p>
+                <div>Ограничения: {% for restriction in task.restrictions.all %} <p>{{ restriction.name }};</p>{% endfor %}</div>
+                <p>Создано: {{ task.created_at }}</p>
+                <p>Выбрано: </p>
+                {% if user.selected_task.id == task.id %}
+                <input type="submit" name="task_refuse" value="Отказаться">
+                {% endif %}
+            </form>
+            {% endif %}
+        {% endfor %}
+        {% if user.position.name == "Лидер команды" %}
+            <form class="addTask" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Добавить задачу</button>
+            </form>
+        {% endif %}
         <h2>Сотрудники</h2>
         {% for user in team.users.all %}
         <p>Имя: {{ user}} Должность: {{ user.position }}</p>
