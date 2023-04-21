@@ -31,6 +31,10 @@ class TeamsDetailView(ModelFormMixin, generic.DetailView):
             return self.post_select_task(request)
         elif request.POST.get("task_refuse"):
             return self.post_refuse_task(request)
+        elif request.POST.get("task_delete"):
+            task_id = request.POST.get("task_id")
+            Tasks.objects.filter(id=task_id).delete()
+            return self.get(request)
         else:
             return self.post_create_task()
 

@@ -26,9 +26,15 @@
                 <p>Дедлайн: {{ task.deadline }}</p>
                 <div>Ограничения: {% for restriction in task.restrictions.all %} <p>{{ restriction.name }};</p>{% endfor %}</div>
                 <p>Создано: {{ task.created_at }}</p>
+                <p>
                 {% if user.selected_task is None %}
                 <input type="submit" name="task_select" value="Выбрать">
                 {% endif %}
+                {% load has_perm %}
+                {% if request.user|has_perm:'delete_tasks' %}
+                <input type="submit" name="task_delete" value="Удалить">
+                {% endif %}
+                </p>
             </form>
             {% endif %}
         {% endfor %}
@@ -43,13 +49,20 @@
                 <div>Ограничения: {% for restriction in task.restrictions.all %} <p>{{ restriction.name }};</p>{% endfor %}</div>
                 <p>Создано: {{ task.created_at }}</p>
                 <p>Выбрано: </p>
+                <p>
                 {% if user.selected_task.id == task.id %}
                 <input type="submit" name="task_refuse" value="Отказаться">
                 {% endif %}
+                {% load has_perm %}
+                {% if request.user|has_perm:'delete_tasks' %}
+                <input type="submit" name="task_delete" value="Удалить">
+                {% endif %}
+                </p>
             </form>
             {% endif %}
         {% endfor %}
-        {% if user.position.name == "Лидер команды" %}
+        {% load has_perm %}
+        {% if request.user|has_perm:'add_tasks' %}
             <form class="addTask" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
