@@ -9,7 +9,7 @@ class Users(AbstractUser):
     phone = models.CharField(max_length=20, verbose_name="Телефон")
     position = models.ForeignKey("Positions", on_delete=models.CASCADE, null=True, blank=True, verbose_name="Должность")
     selected_task = models.ForeignKey("Tasks", blank=True, null=True, default=None, on_delete=models.SET_DEFAULT,
-                                      verbose_name="Задача")
+                                      verbose_name="Задача", related_name="selected_by")
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} {self.second_name}"
@@ -27,8 +27,9 @@ class UserToTeam(models.Model):
 
 class Team(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название")
-    tasks = models.ManyToManyField("Tasks", blank=True, verbose_name="Задачи", through="TaskToTeam")
-    users = models.ManyToManyField("Users", blank=True, verbose_name="Участники")
+    tasks = models.ManyToManyField("Tasks", blank=True, verbose_name="Задачи", through="TaskToTeam",
+                                   related_name="in_team")
+    users = models.ManyToManyField("Users", blank=True, verbose_name="Участники", related_name="team")
 
     def __str__(self):
         return self.title

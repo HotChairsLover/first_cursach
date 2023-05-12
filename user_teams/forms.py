@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.forms import ModelForm
+from django import forms
 
 from . import models
 
@@ -18,7 +18,7 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ("username", "first_name", "last_name", "second_name", "phone", "position", "selected_task")
 
 
-class TaskAdd(ModelForm):
+class TaskAdd(forms.ModelForm):
 
     class Meta:
         model = models.Tasks

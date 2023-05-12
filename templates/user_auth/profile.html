@@ -1,0 +1,53 @@
+{% if user.is_authenticated %}
+    {% if user.username == User.username %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'teams_list' %}">Главная</a>
+            <a href="{% url 'user_profile' pk=user.id%}">Личный кабинет</a>
+            <a href="{% url 'user_logout' %}">Выйти из аккаунта</a>
+        </nav>
+    </header>
+    <div>
+        <div>
+            <p>Имя: {{ User.first_name }}</p>
+            <p>Фамилия: {{ User.second_name }}</p>
+            <p>Отчество: {{ User.last_name }}</p>
+            <p>Телефон: {{ User.phone }}</p>
+            <p>Должность: {{ User.position }}</p>
+            {% if User.selected_task %}
+            <div>
+                <div>Задача</div>
+                <div>
+                    <p>Описание: {{ User.selected_task.description }}</p>
+                    <p>Дедлайн: {{ User.selected_task.deadline }}</p>
+                    <p><a href="{% url 'teams_detail' pk=User.selected_task.in_team.get.id %}">Перейти</a></p>
+                </div>
+            </div>
+            {% endif %}
+            <div>
+                <div>Команды</div>
+                {% for team in User.team.all %}
+                <div>
+                    <p>Название: {{ team.title }}</p>
+                    <p><a href="{% url 'teams_detail' pk=team.id %}">Перейти</a></p>
+                </div>
+                {% endfor %}
+            </div>
+            <p><a href="{% url 'user_password' %}">Сменить пароль</a></p>
+        </div>
+    </div>
+</body>
+</html>
+    {% else %}
+        <meta http-equiv = "refresh" content = "0; url = {% url 'user_profile' pk=user.id %}"/>
+    {% endif %}
+{% else %}
+    <meta http-equiv = "refresh" content = "0; url = {% url 'user_auth' %}"/>
+{% endif %}

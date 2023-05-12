@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 from django.template.defaulttags import url
 from django.urls import reverse
 from django.views import generic
-from django.views.generic.edit import ModelFormMixin
+from django.views.generic.edit import ModelFormMixin, FormMixin
 
 from user_teams.models import *
 from . import forms
@@ -16,11 +16,31 @@ class TeamsListView(generic.ListView):
     context_object_name = "teams"
 
 
+def task_change(request, pk):
+    task = Tasks.objects.get(id=pk)
+
+    if request.method == "POST":
+        form = forms.TaskAdd(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('teams_detail', pk=task.in_team.get().id)
+    else:
+        form = forms.TaskAdd(instance=task)
+    return render(request,
+                  'user_teams/task_change.html',
+                  {'form': form})
+
+
 class TeamsDetailView(ModelFormMixin, generic.DetailView):
     model = Team
     template_name = "user_teams/teams_detail.html"
     context_object_name = "team"
     form_class = forms.TaskAdd
+
+    def get_context_data(self, **kwargs):
+        context = super(TeamsDetailView, self).get_context_data(**kwargs)
+        context['users'] = Users.objects.all()
+        return context
 
     def get_success_url(self):
         self.object = self.get_object()
@@ -35,8 +55,25 @@ class TeamsDetailView(ModelFormMixin, generic.DetailView):
             task_id = request.POST.get("task_id")
             Tasks.objects.filter(id=task_id).delete()
             return self.get(request)
+        elif request.POST.get("user_remove"):
+            return self.post_user_manager(request, "remove")
+        elif request.POST.get("user_add"):
+            return self.post_user_manager(request, "add")
         else:
             return self.post_create_task()
+
+    def post_user_manager(self, request, method):
+        self.object = self.get_object()
+        user_id = request.POST.get(f"user_{method}")
+        team = Team.objects.get(id=self.object.id)
+        user = Users.objects.get(id=user_id)
+        if method == "remove":
+            team.users.remove(user)
+            team.save()
+        elif method == "add":
+            team.users.add(user)
+            team.save()
+        return self.get(request)
 
     def post_refuse_task(self, request):
         user_id = request.user.id
@@ -72,4 +109,3 @@ class TeamsDetailView(ModelFormMixin, generic.DetailView):
             user.save()
             task.save()
         return self.get(request)
-
