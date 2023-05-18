@@ -6,16 +6,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
+    {% load static %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 <body>
-    {% block content %}
-        <h2>Login Page</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
-        </form>
-    {% endblock content %}
+    <main>
+        <div class="login_div">
+            <div class="container">
+                <h1>Вход</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="button_container">
+                        <button type="submit">Вход</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
 {% endif %}

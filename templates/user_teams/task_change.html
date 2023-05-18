@@ -3,12 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Изменение задачи</title>
+    {% load static %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 <body>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Изменить">
-    </form>
+    <header>
+        <nav>
+            <a href="{% url 'teams_list' %}">Главная</a>
+            <a href="{% url 'user_profile' pk=user.id%}">Личный кабинет</a>
+            <a href="{% url 'user_logout' %}">Выйти из аккаунта</a>
+        </nav>
+    </header>
+    <main class="taskchange_main">
+        <div class="login_div">
+            <div class="container">
+                <h1>Изменение задачи</h1>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="button_container">
+                        <button type="submit">Изменить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

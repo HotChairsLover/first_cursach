@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Команды</title>
+    {% load static %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -13,12 +15,16 @@
             <a href="{% url 'user_logout' %}">Выйти из аккаунта</a>
         </nav>
     </header>
+    <main>
     {% for team in teams %}
-    <div>
-        <h3>{{ team.title }}</h3>
-        <p><a href="{{ team.id }}">Перейти</a></p>
-    </div>
+        <div class="teamlist_div">
+            <div>
+                <h1>{{ team.title }}</h1>
+                <p><a href="{{ team.id }}">Перейти</a></p>
+            </div>
+        </div>
     {% endfor %}
+    </main>
 </body>
 </html>
 {% else %}
