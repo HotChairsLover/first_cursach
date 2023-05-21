@@ -1,0 +1,137 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 0.875rem;
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    color: #eeeeee;
+    background: #121212;
+}
+a:link, a:visited {
+    color: #81d4fa;
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+}
+a:-webkit-any-link {
+    color: #f7f7f7;
+    cursor: pointer;
+    text-decoration: underline;
+}
+header{
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 40px;
+    background: #417690;
+    color: white;
+    overflow: hidden;
+}
+header nav a{
+    padding: 0 10px;
+}
+main{
+    display: flex;
+    justify-content: center;
+}
+main .teamlist_div{
+    margin: 50px 0;
+    display: flex;
+    width: 400px;
+    justify-content: center;
+}
+main .teamlist_div p{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    font-size: 20px;
+}
+main .login_div{
+    width: 400px;
+    display: flex;
+    margin: 200px 0;
+    justify-content: center;
+}
+main .login_div h1{
+    text-align: center;
+    margin: 30px 0;
+}
+main .login_div p{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+main .login_div form div {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+ul{
+    list-style: none;
+}
+main .login_div input{
+    width: 150px;
+}
+main .login_div select{
+    width: 150px;
+}
+main .login_div textarea{
+    width: 150px;
+    height: 100px;
+}
+main .login_div .button_container{
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+main .login_div button{
+    width: 90px;
+    height: 30px;
+    color: white;
+    background: darkgray;
+    margin-left: 15px;
+}
+.taskchange_main .login_div{
+    margin: 100px 0;
+}
+.teamdetail_title{
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+.teamdetail_tasks{
+    display: flex;
+    justify-content: center;
+    margin: 50px 0;
+}
+.teamdetail_listtasks{
+    display: flex;
+    justify-content: space-around;
+    height: 500px;
+}
+.teamdetail_task_container{
+    width: 300px;
+}
+.teamdetail_task_container .task{
+    width: 300px;
+    font-size: 20px;
+}
+.teamdetail_task_container p{
+    width: 300px;
+    margin: 10px 0;
+    line-height: 30px;
+}
+.teamdetail_task_container input{
+    width: 90px;
+    height: 30px;
+    color: white;
+    background: darkgray;
+}
+
+
+

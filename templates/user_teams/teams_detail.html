@@ -16,11 +16,13 @@
             <a href="{% url 'user_logout' %}">Выйти из аккаунта</a>
         </nav>
     </header>
-    <h1>{{ team.title }}</h1>
+    <h1 class="teamdetail_title">{{ team.title }}</h1>
     <div>
-        <h2>Свободные задачи</h2>
+        <h2 class="teamdetail_tasks">Свободные задачи</h2>
+        <div class="teamdetail_listtasks">
         {% for task in team.tasks.all %}
             {% if task.is_selected is False %}
+            <div class="teamdetail_task_container">
             <form class="task" action="" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="task_id" value="{{ task.id }}">
@@ -41,11 +43,15 @@
             {% if request.user|has_perm:'change_tasks' %}
             <p><a href="{% url 'task_change' pk=task.id %}">Изменить</a></p>
             {% endif %}
+            </div>
             {% endif %}
         {% endfor %}
-        <h2>Выбранные задачи</h2>
+        </div>
+        <h2 class="teamdetail_tasks">Выбранные задачи</h2>
+        <div class="teamdetail_listtasks">
         {% for task in team.tasks.all %}
             {% if task.is_selected is not False %}
+            <div class="teamdetail_task_container">
             <form class="task" action="" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="task_id" value="{{ task.id }}">
@@ -67,8 +73,10 @@
                 {% endif %}
                 </p>
             </form>
+            </div>
             {% endif %}
         {% endfor %}
+        </div>
         {% load has_perm %}
         {% if request.user|has_perm:'add_tasks' %}
             <form class="addTask" method="post">
