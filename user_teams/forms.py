@@ -22,4 +22,4 @@ class TaskAdd(forms.ModelForm):
 
     class Meta:
         model = models.Tasks
-        exclude = ["completed_at", "is_selected"]
+        exclude = ["completed_at", "is_selected", "completed_by"]

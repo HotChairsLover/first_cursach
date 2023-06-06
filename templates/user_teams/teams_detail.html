@@ -63,6 +63,7 @@
                 <p>
                 {% if user.selected_task.id == task.id %}
                 <input type="submit" name="task_refuse" value="Отказаться">
+                <input type="submit" name="task_complete" value="Завершить">
                 {% endif %}
                 {% load has_perm %}
                 {% if request.user|has_perm:'delete_tasks' %}
@@ -79,42 +80,55 @@
         </div>
         {% load has_perm %}
         {% if request.user|has_perm:'add_tasks' %}
-            <form class="addTask" method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Добавить задачу</button>
-            </form>
-        {% endif %}
-        <h2>Сотрудники</h2>
-        <div>
-        {% for user in team.users.all %}
-            <div>
-                <p>Имя: {{ user}} Должность: {{ user.position }}</p>
-                {% if request.user|has_perm:'delete_usertoteam' %}
-                <form method="post">
-                    {% csrf_token %}
-                    <input type="hidden" value="{{ user.id }}" name="user_remove">
-                    <button type="submit">Удалить</button>
-                </form>
-                {% endif %}
+            <div class="taskchange_main">
+                <div class="login_div">
+                    <div class="container">
+                        <h1>Добавление задачи</h1>
+                        <form class="addTask" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <div class="button_container">
+                                <button type="submit">Добавить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
+        {% endif %}
+        <h2 class="teamdetail_tasks">Сотрудники</h2>
+        <div class="employees_center">
+            <div>
+            {% for user in team.users.all %}
+                <div class="container">
+                    <p>Имя: {{ user}} Должность: {{ user.position }}</p>
+                    {% if request.user|has_perm:'delete_usertoteam' %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ user.id }}" name="user_remove">
+                        <button type="submit">Удалить</button>
+                    </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            </div>
         </div>
         {% if request.user|has_perm:'add_usertoteam' %}
-        <h2>Добавить сотрудника</h2>
-        <div>
-        {% for usr in users %}
-            {% if usr.team.get.id != team.id %}
+        <h2 class="teamdetail_tasks">Добавить сотрудника</h2>
+        <div class="employees_center">
             <div>
-                <p>Имя: {{ usr.first_name }} {{ usr.second_name }} {{ usr.last_name }} Должность: {{ usr.position }}</p>
-                <form method="post">
-                    {% csrf_token %}
-                    <input type="hidden" value="{{ usr.id }}" name="user_add">
-                    <button type="submit">Добавить</button>
-                </form>
+            {% for usr in users %}
+                {% if usr.team.get.id != team.id %}
+                <div class="container">
+                    <p>Имя: {{ usr.first_name }} {{ usr.second_name }} {{ usr.last_name }} Должность: {{ usr.position }}</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ usr.id }}" name="user_add">
+                        <button type="submit">Добавить</button>
+                    </form>
+                </div>
+                {% endif %}
+            {% endfor %}
             </div>
-            {% endif %}
-        {% endfor %}
         {% endif %}
         </div>
     </div>

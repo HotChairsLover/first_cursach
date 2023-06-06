@@ -47,6 +47,8 @@ class Tasks(models.Model):
     created_at = models.DateField(auto_now_add=True)
     is_selected = models.BooleanField(null=True, default=False)
     completed_at = models.DateField(blank=True, null=True, default=None)
+    completed_by = models.ForeignKey("Users", blank=True, null=True, default=None, on_delete=models.SET_DEFAULT,
+                                      verbose_name="Выполнено", related_name="completed_tasks")
 
     class Meta:
         ordering = ["deadline"]

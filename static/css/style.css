@@ -96,8 +96,49 @@ main .login_div button{
     background: darkgray;
     margin-left: 15px;
 }
+.taskchange_main{
+    display: flex;
+    justify-content: center;
+}
 .taskchange_main .login_div{
     margin: 100px 0;
+}
+.taskchange_main .login_div input{
+    width: 150px;
+}
+.taskchange_main .login_div select{
+    width: 150px;
+}
+.taskchange_main .login_div textarea{
+    width: 150px;
+    height: 100px;
+}
+.taskchange_main .login_div .button_container{
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+.taskchange_main .login_div button{
+    width: 90px;
+    height: 30px;
+    color: white;
+    background: darkgray;
+    margin-left: 15px;
+}
+.taskchange_main .login_div h1{
+    text-align: center;
+    margin: 30px 0;
+}
+.taskchange_main .login_div p{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+.taskchange_main .login_div form div {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
 }
 .teamdetail_title{
     display: flex;
@@ -111,14 +152,16 @@ main .login_div button{
 }
 .teamdetail_listtasks{
     display: flex;
-    justify-content: space-around;
+    margin: 0 50px;
     height: 500px;
+    overflow: auto;
+    overflow-y: hidden;
 }
 .teamdetail_task_container{
-    width: 300px;
+    width: 500px;
 }
 .teamdetail_task_container .task{
-    width: 300px;
+    width: 500px;
     font-size: 20px;
 }
 .teamdetail_task_container p{
@@ -132,6 +175,25 @@ main .login_div button{
     color: white;
     background: darkgray;
 }
-
+.employees_center{
+    display: flex;
+    justify-content: center;
+    height: 500px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+.employees_center .container{
+    margin: 20px 0;
+}
+.employees_center button{
+    width: 90px;
+    height: 30px;
+    color: white;
+    background: darkgray;
+    margin-top: 10px;
+}
+.employees_center p{
+    font-size: 20px;
+}
 
 

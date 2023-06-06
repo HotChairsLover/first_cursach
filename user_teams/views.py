@@ -1,3 +1,5 @@
+from sqlite3 import Date
+
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -55,12 +57,27 @@ class TeamsDetailView(ModelFormMixin, generic.DetailView):
             task_id = request.POST.get("task_id")
             Tasks.objects.filter(id=task_id).delete()
             return self.get(request)
+        elif request.POST.get("task_complete"):
+            return self.post_task_complete(request)
         elif request.POST.get("user_remove"):
             return self.post_user_manager(request, "remove")
         elif request.POST.get("user_add"):
             return self.post_user_manager(request, "add")
         else:
             return self.post_create_task()
+
+    def post_task_complete(self, request):
+        task_id = request.POST.get("task_id")
+        task = Tasks.objects.filter(id=task_id).get()
+        task.completed_at = Date.today()
+        task.completed_by = task.selected_by.get()
+        task.is_selected = False
+        user_id = request.user.id
+        user = Users.objects.filter(id=user_id).get()
+        user.selected_task = None
+        user.save()
+        task.save()
+        return self.get(request)
 
     def post_user_manager(self, request, method):
         self.object = self.get_object()
