@@ -195,5 +195,19 @@ main .login_div button{
 .employees_center p{
     font-size: 20px;
 }
+.profile_center{
+    display: flex;
+    justify-content: center;
+}
+.profile_container{
+    margin: 100px 0;
+}
+.profile_container .profile_info{
+    margin: 50px 0;
+}
+.profile_container p{
+    margin: 10px 0;
+    font-size: 20px;
+}
 
 

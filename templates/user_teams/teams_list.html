@@ -16,14 +16,16 @@
         </nav>
     </header>
     <main>
-    {% for team in teams %}
-        <div class="teamlist_div">
-            <div>
-                <h1>{{ team.title }}</h1>
-                <p><a href="{{ team.id }}">Перейти</a></p>
+        <div>
+        {% for team in teams %}
+            <div class="teamlist_div">
+                <div>
+                    <h1>{{ team.title }}</h1>
+                    <p><a href="{{ team.id }}">Перейти</a></p>
+                </div>
             </div>
+        {% endfor %}
         </div>
-    {% endfor %}
     </main>
 </body>
 </html>

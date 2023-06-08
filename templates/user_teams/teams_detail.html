@@ -1,5 +1,5 @@
 {% if user.is_authenticated %}
-    {% if user.team.get == team or user.username == "admin" %}
+    {% if team in user.team.all or user.username == "admin" %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,11 +17,28 @@
         </nav>
     </header>
     <h1 class="teamdetail_title">{{ team.title }}</h1>
+    {% load has_perm %}
+    {% if request.user|has_perm:'delete_tasks' %}
+    <div class="taskchange_main">
+        <div class="login_div">
+            <div class="container">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="make_report" value="{{ team.id }}"/>
+                    <input type="number" name="make_report_days" placeholder="Количество дней"/>
+                    <div class="button_container">
+                        <button type="submit">Отчет</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div>
         <h2 class="teamdetail_tasks">Свободные задачи</h2>
         <div class="teamdetail_listtasks">
         {% for task in team.tasks.all %}
-            {% if task.is_selected is False %}
+            {% if task.is_selected is False and task.completed_at is None %}
             <div class="teamdetail_task_container">
             <form class="task" action="" method="post">
                 {% csrf_token %}
@@ -98,13 +115,13 @@
         <h2 class="teamdetail_tasks">Сотрудники</h2>
         <div class="employees_center">
             <div>
-            {% for user in team.users.all %}
+            {% for usr in team.users.all %}
                 <div class="container">
-                    <p>Имя: {{ user}} Должность: {{ user.position }}</p>
-                    {% if request.user|has_perm:'delete_usertoteam' %}
+                    <p>Имя: {{ usr}} Должность: {{ usr.position }}</p>
+                    {% if request.user|has_perm:'delete_usertoteam' and usr.id != user.id %}
                     <form method="post">
                         {% csrf_token %}
-                        <input type="hidden" value="{{ user.id }}" name="user_remove">
+                        <input type="hidden" value="{{ usr.id }}" name="user_remove">
                         <button type="submit">Удалить</button>
                     </form>
                     {% endif %}
@@ -117,7 +134,7 @@
         <div class="employees_center">
             <div>
             {% for usr in users %}
-                {% if usr.team.get.id != team.id %}
+                {% if usr.team.get.id != team.id and usr.position is not None %}
                 <div class="container">
                     <p>Имя: {{ usr.first_name }} {{ usr.second_name }} {{ usr.last_name }} Должность: {{ usr.position }}</p>
                     <form method="post">

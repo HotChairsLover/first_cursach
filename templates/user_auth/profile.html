@@ -16,16 +16,16 @@
             <a href="{% url 'user_logout' %}">Выйти из аккаунта</a>
         </nav>
     </header>
-    <div>
-        <div>
+    <div class="profile_center">
+        <div class="profile_container">
             <p>Имя: {{ User.first_name }}</p>
             <p>Фамилия: {{ User.second_name }}</p>
             <p>Отчество: {{ User.last_name }}</p>
             <p>Телефон: {{ User.phone }}</p>
             <p>Должность: {{ User.position }}</p>
             {% if User.selected_task %}
-            <div>
-                <div>Задача</div>
+            <div class="profile_info">
+                <p>Задача</p>
                 <div>
                     <p>Описание: {{ User.selected_task.description }}</p>
                     <p>Дедлайн: {{ User.selected_task.deadline }}</p>
@@ -33,8 +33,8 @@
                 </div>
             </div>
             {% endif %}
-            <div>
-                <div>Команды</div>
+            <div class="profile_info">
+                <p>Команды</p>
                 {% for team in User.team.all %}
                 <div>
                     <p>Название: {{ team.title }}</p>
