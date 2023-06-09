@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменить данные</title>
+    {% load static %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'teams_list' %}">Главная</a>
+            <a href="{% url 'user_profile' pk=user.id%}">Личный кабинет</a>
+            <a href="{% url 'user_logout' %}">Выйти из аккаунта</a>
+        </nav>
+    </header>
+    <main class="taskchange_main">
+        <div class="login_div">
+            <div class="container">
+                <h1>Изменение данных</h1>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <p>
+                        <label for="id_user_first_name">Имя:</label>
+                        <input id="id_user_first_name" name="user_first_name" type="text" placeholder="Имя" value="{{ user.first_name }}"/>
+                    </p>
+                    <p>
+                        <label for="id_user_second_name">Фамилия:</label>
+                        <input id="id_user_second_name" name="user_second_name" type="text" placeholder="Фамилия" value="{{ user.second_name }}"/>
+                    </p>
+                    <p>
+                        <label for="id_user_last_name">Отчество:</label>
+                        <input id="id_user_last_name" name="user_last_name" type="text" placeholder="Отчество" value="{{ user.last_name }}"/>
+                    </p>
+                    <p>
+                        <label for="id_user_phone">Телефон:</label>
+                        <input id="id_user_phone" name="user_phone" type="text" placeholder="Телефон" value="{{ user.phone }}"/>
+                    </p>
+                    <div class="button_container">
+                        <button type="submit">Изменить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

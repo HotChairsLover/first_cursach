@@ -1,3 +1,5 @@
+import re
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -11,6 +13,23 @@ from user_teams.models import Users
 
 class UserAuth(LoginView):
     template_name = "user_auth/login.html"
+
+
+def change_user(request):
+    if request.method == 'POST':
+        user_first_name = request.POST.get("user_first_name")
+        user_second_name = request.POST.get("user_second_name")
+        user_last_name = request.POST.get("user_last_name")
+        user_phone = request.POST.get("user_phone")
+        user = request.user
+        if user_first_name.isalpha() and user_second_name.isalpha() and user_last_name.isalpha():
+            if re.match(r"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$", user_phone):
+                user.first_name = user_first_name
+                user.second_name = user_second_name
+                user.last_name = user_last_name
+                user.phone = user_phone
+                user.save()
+    return render(request, 'user_auth/change_user.html')
 
 
 def logout_request(request):
