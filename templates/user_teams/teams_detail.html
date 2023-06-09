@@ -25,7 +25,6 @@
                 <form action="" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="make_report" value="{{ team.id }}"/>
-                    <input type="number" name="make_report_days" placeholder="Количество дней"/>
                     <div class="button_container">
                         <button type="submit">Отчет</button>
                     </div>

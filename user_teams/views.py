@@ -74,11 +74,9 @@ class TeamsDetailView(ModelFormMixin, generic.DetailView):
 
     def post_make_report(self, request):
         team_id = request.POST.get("make_report")
-        days = int(request.POST.get("make_report_days"))
         team = Team.objects.filter(id=team_id).get()
         buffer = io.BytesIO()
         excel_file = xlsxwriter.Workbook(buffer)
-        #excel_file = xlsxwriter.Workbook("report.xlsx")
         excel = excel_file.add_worksheet("report")
         row = 0
         column = 0
@@ -144,7 +142,7 @@ class TeamsDetailView(ModelFormMixin, generic.DetailView):
         column = 0
         row += 1
         for task in team.tasks.all():
-            if task.completed_by is not None and (datetime.date.today() - task.completed_at).days < days:
+            if task.completed_by is not None:
                 excel.write(row, column, task.description)
                 column += 1
                 excel.write(row, column, f"{task.deadline}")

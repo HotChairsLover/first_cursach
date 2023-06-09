@@ -36,9 +36,9 @@ class TeamAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(models.Tasks)
-class TasksAdmin(admin.ModelAdmin):
-    pass
+#@admin.register(models.Tasks)
+#class TasksAdmin(admin.ModelAdmin):
+#    pass
 
 
 @admin.register(models.Positions)
